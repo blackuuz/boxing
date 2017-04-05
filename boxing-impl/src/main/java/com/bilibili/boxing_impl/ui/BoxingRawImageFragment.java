@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  *
  * @author ChenSL
  */
-public class BoxingRawImageFragment extends Fragment {
+public class BoxingRawImageFragment extends BoxingBaseFragment {
     private static final String BUNDLE_IMAGE = "com.bilibili.boxing_impl.ui.BoxingRawImageFragment.image";
     private static final int MAX_SCALE = 15;
     private static final long MAX_IMAGE1 = 1024 * 1024L;
@@ -85,8 +84,14 @@ public class BoxingRawImageFragment extends Fragment {
         mAttacher = new PhotoViewAttacher(mImageView);
         mAttacher.setRotatable(true);
         mAttacher.setToRightAngle(true);
-        Point point = getResizePointer(mMedia.getSize());
-        ((AbsBoxingViewActivity) getActivity()).loadRawImage(mImageView, mMedia.getPath(), point.x, point.y, new BoxingCallback(this));
+    }
+
+    @Override
+    void setUserVisibleCompat(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            Point point = getResizePointer(mMedia.getSize());
+            ((AbsBoxingViewActivity) getActivity()).loadRawImage(mImageView, mMedia.getPath(), point.x, point.y, new BoxingCallback(this));
+        }
     }
 
     /**
